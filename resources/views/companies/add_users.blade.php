@@ -43,11 +43,17 @@
         
               <form method="POST" action="{{route('companies.store_users',$company->id)}}" enctype="multipart/form-data">
 @csrf
+      @php
+                  $user_ids = [];
+      if($company->user_id != null){
+        $user_ids = json_decode($company->user_id);
+      }
+      @endphp
 
                   @foreach($users as $user)
 <div class="form-group">
     
-    <input class="checkbox" type="checkbox" name="user_id[]" value="{{$user->id}}" @if(in_array($user->id,json_decode($company->user_id))) checked @endif><span>{{$user->name}}</span>
+    <input class="checkbox" type="checkbox" name="user_id[]" value="{{$user->id}}" @if(in_array($user->id,$user_ids)) checked @endif><span>{{$user->name}}</span>
 </div>
                   @endforeach
 
