@@ -80,10 +80,15 @@ class CompanyController extends Controller
     {
         $company = Company::findOrFail($id);
 
-       
-        $input = $request->all();
-        $company->user_id = json_encode($input['user_id']);
-        $company->save();
+       if($request->has('user_id')){
+           $input = $request->all();
+            $company->user_id = json_encode($input['user_id']);
+            $company->save();
+       }else{
+           $company->user_id = null;
+            $company->save();
+       }
+        
 
         Session::flash('flash_message', 'Company successfully added!');
 
